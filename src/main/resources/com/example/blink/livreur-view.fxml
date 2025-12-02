@@ -1,14 +1,70 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
+<BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.blink.Controllers.livreurController"
-            prefHeight="400.0" prefWidth="600.0">
+            fx:controller="com.example.blink.Controllers.livreurController">
 
-</AnchorPane>
+    <!-- TOP BAR -->
+    <top>
+        <HBox style="-fx-background-color: #3498db;" spacing="20">
+            <padding>
+                <Insets top="15" right="15" bottom="15" left="15"/>
+            </padding>
+            <children>
+                <Label text="Delivery Worker Dashboard"
+                       style="-fx-text-fill: white; -fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label fx:id="lblWorkerName"
+                       text="Worker Name"
+                       style="-fx-text-fill: white; -fx-font-size: 14px;"/>
+            </children>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- SECTION TITLE -->
+            <Label text="Available Deliveries"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <!-- TABLE OF AVAILABLE DELIVERIES -->
+            <TableView fx:id="availableTable" prefHeight="260">
+                <columns>
+                    <TableColumn fx:id="colAOrderId"     text="Order ID"     prefWidth="80"/>
+                    <TableColumn fx:id="colAStore"       text="Store"        prefWidth="130"/>
+                    <TableColumn fx:id="colACustomer"    text="Address"      prefWidth="200"/>
+                    <TableColumn fx:id="colAStatus"      text="Status"       prefWidth="120"/>
+                    <TableColumn fx:id="colAAction"      text="Action"       prefWidth="120"/>
+                </columns>
+            </TableView>
+
+            <Separator/>
+
+            <!-- SECTION TITLE -->
+            <Label text="My Deliveries"
+                   style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+
+            <!-- TABLE OF ASSIGNED DELIVERIES -->
+            <TableView fx:id="myDeliveriesTable" prefHeight="260">
+                <columns>
+                    <TableColumn fx:id="colMOrderId"     text="Order ID"     prefWidth="80"/>
+                    <TableColumn fx:id="colMStore"       text="Store"        prefWidth="130"/>
+                    <TableColumn fx:id="colMCustomer"    text="Address"      prefWidth="200"/>
+                    <TableColumn fx:id="colMStatus"      text="Status"       prefWidth="120"/>
+                    <TableColumn fx:id="colMAction"      text="Action"       prefWidth="120"/>
+                </columns>
+            </TableView>
+
+        </VBox>
+    </center>
+
+</BorderPane>
