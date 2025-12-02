@@ -1,55 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<BorderPane xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.example.blink.Controllers.SignUpController"
-            prefWidth="420" prefHeight="580">
+<StackPane stylesheets="@styles.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.blink.Controllers.SignUpController">
+   <children>
+       <ImageView fx:id="backgroundImage" pickOnBounds="true">
+           <image>
+               <Image url="@elements/login_page.png" />
+           </image>
+           <StackPane.margin>
+               <Insets top="250.0" />
+           </StackPane.margin>
+       </ImageView>
 
-    <!-- Center Box -->
-    <center>
-        <VBox alignment="CENTER" spacing="18">
-            <children>
 
-                <Label text="Create Account" style="-fx-font-size: 26px; -fx-font-weight: bold;" />
 
-                <VBox spacing="10">
-                    <children>
-                        <TextField fx:id="nameField" promptText="Full Name"
-                                   style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-
-                        <TextField fx:id="emailField" promptText="Email"
-                                   style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-
-                        <TextField fx:id="phoneField" promptText="Phone"
-                                   style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-
-                        <PasswordField fx:id="passwordField" promptText="Password"
-                                       style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-
-                        <PasswordField fx:id="confirmPasswordField" promptText="Confirm Password"
-                                       style="-fx-background-radius: 10; -fx-border-radius: 10;" />
-                    </children>
-                </VBox>
-
-                <Button text="Create Account"
-                        onAction="#handleSignUp"
-                        style="-fx-background-color: #2196F3; -fx-text-fill: white;
-                               -fx-font-size: 15px; -fx-background-radius: 12;
-                               -fx-pref-width: 220;" />
-
-                <Hyperlink text="Already have an account? Log in"
-                           onAction="#goToLogin" />
-
-            </children>
-        </VBox>
-    </center>
-
-    <padding>
-        <Insets top="30" right="30" bottom="30" left="30"/>
-    </padding>
-</BorderPane>
+      <BorderPane prefHeight="580" prefWidth="420" style="-fx-background-size: cover; -fx-background-repeat: no-repeat;">
+      
+          <!-- Center Box -->
+          <center>
+              <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="500.0" prefWidth="300.0" spacing="20">
+                  <children>
+      
+                      <Label style="-fx-font-size: 26px; -fx-font-weight: bold;" text="Cree un compte" />
+      
+                      <VBox spacing="10">
+                          <children>
+                              <TextField fx:id="nomSignUpField" promptText="Nom" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+      
+                              <TextField fx:id="prenomSignUpField" promptText="prenom" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+      
+                              <TextField fx:id="emailSignUpField" promptText="Email" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+      
+                              <PasswordField fx:id="passwordSignUpField" promptText="Password" style="-fx-background-radius: 10; -fx-border-radius: 10;" />
+      
+      
+      
+                          </children>
+                      </VBox>
+      
+                      <Button onAction="#handleSignUp" style="-fx-background-color: #2196F3; -fx-text-fill: white;                                 -fx-font-size: 15px; -fx-background-radius: 12;                                 -fx-pref-width: 220;" text="Cree un compte" />
+      
+                      <Hyperlink onAction="#goToLogin" text="Vous avez déjà un compte ? Se connecter" />
+      
+                  </children>
+                  <padding>
+                      <Insets right="20.0" top="280.0" />
+                  </padding>
+              </VBox>
+          </center>
+      
+          <padding>
+              <Insets bottom="30.0" left="30.0" right="30.0" top="140.0" />
+          </padding>
+      </BorderPane>
+   </children>
+</StackPane>

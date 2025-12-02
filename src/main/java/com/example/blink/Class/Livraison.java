@@ -9,6 +9,7 @@ public class Livraison {
     private int IDCommande;
     private int IDClient;
     private String Status;
+    private Commande ListCommande;
     private Date DateDeCreation;
 
 }

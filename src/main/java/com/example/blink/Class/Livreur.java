@@ -4,32 +4,20 @@ public class Livreur extends Utilisateur {
 
     private boolean disponibilite;
 
-    // Constructeur vide
-    public Livreur() {
-        super();
-    }
-
-    // Constructeur complet avec role fixe (toujours Livreur)
-    public Livreur(int id, String nom, String prenom, String email, String motDePass,
-                   boolean disponibilite) {
-        super(id, nom, prenom, email, motDePass, Roles.livreur);
+    public Livreur(int id, String nom, String prenom, String email, String motDePass, String role, boolean disponibilite)
+    {
+        super(id, nom, prenom, email, motDePass, role);
         this.disponibilite = disponibilite;
     }
 
-    // Getter & Setter
-    public boolean getZoneLivraison() {
+
+    public boolean getdisponibilite()
+    {
         return disponibilite;
     }
 
-    public void setZoneLivraison(boolean disponibilite) {
+    public void setdisponibilite(String adresseClient)
+    {
         this.disponibilite = disponibilite;
-    }
-
-    public void Voir_Livraison_dispo(){
-
-    }
-
-    public void Choissi_livraison(){
-
     }
 }

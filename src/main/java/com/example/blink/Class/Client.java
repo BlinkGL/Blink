@@ -4,23 +4,21 @@ public class Client extends Utilisateur {
 
     private String adresseClient;
 
-    // Constructeur vide
-    public Client() {
-        super(); // Appelle le constructeur vide de Utilisateur
-    }
 
-    public Client(int id, String nom, String prenom, String email, String motDePass, String adresseClient) {
-        super(id, nom, prenom, email, motDePass, Roles.client);
+    public Client(int id, String nom, String prenom, String email, String motDePass, String role, String adresseClient)
+    {
+        super(id, nom, prenom, email, motDePass, role);
         this.adresseClient = adresseClient;
     }
 
 
-    // Getter & Setter
-    public String getAdresseClient() {
+    public String getAdresseClient()
+    {
         return adresseClient;
     }
 
-    public void setAdresseClient(String adresseClient) {
+    public void setAdresseClient(String adresseClient)
+    {
         this.adresseClient = adresseClient;
     }
 }

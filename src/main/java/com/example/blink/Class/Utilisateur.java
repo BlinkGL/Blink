@@ -7,15 +7,10 @@ public class Utilisateur {
     private String Prenom;
     private String Email;
     private String MotDePass;
-    public enum Roles {admin, livreur, client}
-    public Roles Role;
-
-    // Constructor vide
-    public Utilisateur() {
-    }
+    private String Role;
 
     // Constructeur avec paramètres
-    public Utilisateur(int id, String nom, String prenom, String email, String motDePass, Roles role) {
+    public Utilisateur(int id, String nom, String prenom, String email, String motDePass, String role) {
         this.Id = id;
         this.Nom = nom;
         this.Prenom = prenom;
@@ -25,51 +20,68 @@ public class Utilisateur {
     }
 
     // Getters et setters
-    public int getId() {
+    public int getId()
+    {
         return Id;
     }
 
-    public void setId(int id) {
+    public void setId(int id)
+    {
         this.Id = id;
     }
 
-    public String getNom() {
+
+    public String getNom()
+    {
         return Nom;
     }
 
-    public void setNom(String nom) {
+    public void setNom(String nom)
+    {
         this.Nom = nom;
     }
 
-    public String getPrenom() {
+
+    public String getPrenom()
+    {
         return Prenom;
     }
 
-    public void setPrenom(String prenom) {
+    public void setPrenom(String prenom)
+    {
         this.Prenom = prenom;
     }
 
-    public String getEmail() {
+
+    public String getEmail()
+    {
         return Email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(String email)
+    {
         this.Email = email;
     }
 
-    public String getMotDePass() {
+
+    public String getMotDePass()
+    {
         return MotDePass;
     }
 
-    public void setMotDePass(String motDePass) {
+    public void setMotDePass(String motDePass)
+    {
         this.MotDePass = motDePass;
     }
 
-    public Roles getRole() {
+
+    public String getRole()
+    {
         return Role;
     }
 
-    public void setRole(Roles role) {
+    public void setRole(String role)
+    {
         this.Role = role;
     }
 
