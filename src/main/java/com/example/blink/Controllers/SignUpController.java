@@ -1,5 +1,6 @@
 package com.example.blink.Controllers;
 
+import com.example.blink.DAO.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
 import javafx.stage.Stage;
+import javafx.scene.control.Alert;
+
 
 import java.io.IOException;
 
@@ -22,9 +25,40 @@ public class SignUpController {
 
 
     public void handleSignUp() {
-        System.out.println("SignUp clicked");
-        // TODO: insert into DB
+
+        String nom = nomSignUpField.getText();
+        String prenom = prenomSignUpField.getText();
+        String email = emailSignUpField.getText();
+        String password = passwordSignUpField.getText();
+
+        if (nom.isEmpty() || prenom.isEmpty() || email.isEmpty() || password.isEmpty()) {
+            showAlert("Erreur", "Tous les champs doivent être remplis.");
+            return;
+        }
+
+        String role = "admin";
+
+        boolean success = UserDAO.createUtilisateur(nom, prenom, email, password, role);
+
+        if (success) {
+            showAlert("Succès", "Compte admin créé avec succès !");
+            System.out.println("ADMIN CREATED SUCCESSFULLY");
+        } else {
+            showAlert("Erreur", "Erreur lors de la création du compte.");
+        }
     }
+
+    private void showAlert(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setHeaderText(null);
+        alert.setTitle(title);
+        alert.setContentText(message);
+        alert.show();
+    }
+
+
+
+
 
     public void goToLogin(ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/blink/Login.fxml"));
