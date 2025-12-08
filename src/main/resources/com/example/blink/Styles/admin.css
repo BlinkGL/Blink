@@ -1,0 +1,12 @@
+/* admin.css */
+.sidebar-button {
+    -fx-background-color: transparent;
+    -fx-text-fill: white;
+    -fx-pref-width: 220px;
+    -fx-alignment: CENTER_LEFT;
+    -fx-padding: 8 20;
+}
+
+.sidebar-button:hover {
+    -fx-background-color: #34495e;
+}

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.blink.Controllers.AdminDashboardController">
+
+    <!-- SIDEBAR -->
+    <left>
+        <VBox spacing="12" style="-fx-background-color: #2c3e50;" prefWidth="220" alignment="TOP_LEFT">
+            <padding>
+                <Insets top="20" left="20" right="20" bottom="20"/>
+            </padding>
+            <children>
+                <Label text="Admin Panel" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 20 0 20 0;"/>
+
+                <Button text="Dashboard" styleClass="sidebar-button"/>
+                <Button text="Orders" styleClass="sidebar-button"/>
+                <Button text="Couriers" styleClass="sidebar-button"/>
+                <Button text="Stores" styleClass="sidebar-button"/>
+                <Button text="Settings" styleClass="sidebar-button"/>
+                <Button text="Logout" styleClass="sidebar-button"/>
+            </children>
+        </VBox>
+    </left>
+
+    <!-- TOP BAR -->
+    <top>
+        <HBox style="-fx-background-color: white; -fx-border-color: #dcdcdc;">
+            <padding>
+                <Insets top="12" right="12" bottom="12" left="12"/>
+            </padding>
+            <children>
+                <Label text="Delivery Admin Dashboard" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <Label text="Admin" style="-fx-font-size: 14px;"/>
+            </children>
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <VBox spacing="20">
+            <padding>
+                <Insets top="20" right="20" bottom="20" left="20"/>
+            </padding>
+
+            <!-- SUMMARY CARDS -->
+            <HBox spacing="20">
+                <VBox spacing="6"
+                      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, gray, 5, 0, 0, 1);"
+                      prefWidth="200">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <children>
+                        <Label text="Total Orders" style="-fx-font-size: 14px;"/>
+                        <Label fx:id="lblTotalOrders" text="0" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                    </children>
+                </VBox>
+
+                <VBox spacing="6"
+                      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, gray, 5, 0, 0, 1);"
+                      prefWidth="200">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <children>
+                        <Label text="Pending Deliveries" style="-fx-font-size: 14px;"/>
+                        <Label fx:id="lblPending" text="0" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                    </children>
+                </VBox>
+
+                <VBox spacing="6"
+                      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, gray, 5, 0, 0, 1);"
+                      prefWidth="200">
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+                    <children>
+                        <Label text="Active Couriers" style="-fx-font-size: 14px;"/>
+                        <Label fx:id="lblActiveCouriers" text="0" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
+                    </children>
+                </VBox>
+            </HBox>
+
+            <!-- ORDERS TABLE -->
+            <TableView fx:id="ordersTable" prefHeight="500">
+                <columns>
+                    <TableColumn fx:id="colOrderId" text="Order ID" prefWidth="100"/>
+                    <TableColumn fx:id="colStoreName" text="Store" prefWidth="140"/>
+                    <TableColumn fx:id="colCustomer" text="Customer Address" prefWidth="200"/>
+                    <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
+                    <TableColumn fx:id="colCourier" text="Courier" prefWidth="140"/>
+                    <TableColumn fx:id="colAction" text="Action" prefWidth="120"/>
+                </columns>
+            </TableView>
+        </VBox>
+    </center>
+
+</BorderPane>
