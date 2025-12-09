@@ -36,8 +36,8 @@ public class SignUpController {
         boolean success = UserDAO.createUtilisateur(nom, prenom, email, password);
 
         if (success) {
-            showAlert("Succès", "Compte admin créé avec succès !");
-            System.out.println("ADMIN CREATED SUCCESSFULLY");
+            showAlert("Succès", "Compte livreur créé avec succès !");
+            System.out.println("Livreur CREATED SUCCESSFULLY");
         } else {
             showAlert("Erreur", "Erreur lors de la création du compte.");
         }

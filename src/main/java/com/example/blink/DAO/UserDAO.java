@@ -22,9 +22,10 @@ public class UserDAO {
             pst.setString(2, prenom);
             pst.setString(3, email);
             pst.setString(4, motDePass);
-            pst.setObject(5, true, java.sql.Types.BOOLEAN);
+            pst.setObject(5, true);
             pst.setString(6, null);
-            pst.setObject(7, "livreur", java.sql.Types.OTHER);
+            pst.setObject(7, "livreur");
+            System.out.println("hrlo");
 
             pst.executeUpdate();
             return true;

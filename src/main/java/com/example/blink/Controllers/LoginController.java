@@ -41,9 +41,7 @@ public class LoginController {
                 case "livreur":
                     SceneManager.switchScene(event, "/com/example/blink/livreur-view.fxml");
                     break;
-                case "client":
-                    SceneManager.switchScene(event, "/com/example/blink/client-view.fxml");
-                    break;
+
                 default:
                     showAlert(Alert.AlertType.ERROR, "Erreur", "Rôle utilisateur inconnu.");
             }
