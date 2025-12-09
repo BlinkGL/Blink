@@ -1,110 +1,353 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.text.Font?>
 
 <BorderPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.blink.Controllers.AdminDashboardController">
+            fx:controller="com.example.blink.Controllers.AdminDashboardController"
+            style="-fx-background-color: #ffc996;">
 
-    <!-- SIDEBAR -->
-    <left>
-        <VBox spacing="12" style="-fx-background-color: #2c3e50;" prefWidth="220" alignment="TOP_LEFT">
-            <padding>
-                <Insets top="20" left="20" right="20" bottom="20"/>
-            </padding>
-            <children>
-                <Label text="Admin Panel" style="-fx-text-fill: white; -fx-font-size: 18px; -fx-padding: 20 0 20 0;"/>
-
-                <Button text="Dashboard" styleClass="sidebar-button"/>
-                <Button text="Orders" styleClass="sidebar-button"/>
-                <Button text="Couriers" styleClass="sidebar-button"/>
-                <Button text="Stores" styleClass="sidebar-button"/>
-                <Button text="Settings" styleClass="sidebar-button"/>
-                <Button text="Logout" styleClass="sidebar-button"/>
-            </children>
-        </VBox>
-    </left>
-
-    <!-- TOP BAR -->
+    <!-- HEADER -->
     <top>
-        <HBox style="-fx-background-color: white; -fx-border-color: #dcdcdc;">
+        <HBox prefHeight="50.0" style="-fx-background-color: #f3992e;" alignment="CENTER_LEFT">
             <padding>
-                <Insets top="12" right="12" bottom="12" left="12"/>
+                <Insets top="10" right="20" bottom="10" left="20"/>
             </padding>
             <children>
-                <Label text="Delivery Admin Dashboard" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                <ImageView fitHeight="40.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@elements/blik_logo.png" />
+                    </image>
+                </ImageView>
+                <Label text="BLIK Admin Panel" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;">
+                    <HBox.margin>
+                        <Insets left="15.0"/>
+                    </HBox.margin>
+                </Label>
                 <Pane HBox.hgrow="ALWAYS"/>
-                <Label text="Admin" style="-fx-font-size: 14px;"/>
+                <Label fx:id="lblAdminName" text="Admin" style="-fx-text-fill: white; -fx-font-size: 14px;"/>
             </children>
         </HBox>
     </top>
 
     <!-- MAIN CONTENT -->
     <center>
-        <VBox spacing="20">
-            <padding>
-                <Insets top="20" right="20" bottom="20" left="20"/>
-            </padding>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
+            <tabs>
+                <!-- TAB 1: TABLEAU DE BORD -->
+                <Tab text="📊 Tableau de bord">
+                    <content>
+                        <ScrollPane fitToWidth="true" style="-fx-background-color: #ffc996;">
+                            <content>
+                                <VBox spacing="20" style="-fx-background-color: #ffc996;">
+                                    <padding>
+                                        <Insets top="20" right="20" bottom="20" left="20"/>
+                                    </padding>
+                                    <children>
+                                        <!-- STATISTICS CARDS -->
+                                        <HBox spacing="20" alignment="CENTER">
+                                            <children>
+                                                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;" prefWidth="200">
+                                                    <children>
+                                                        <Label text="Total Commandes" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                                                        <Label fx:id="lblTotalOrders" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #f3992e;"/>
+                                                    </children>
+                                                </VBox>
 
-            <!-- SUMMARY CARDS -->
-            <HBox spacing="20">
-                <VBox spacing="6"
-                      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, gray, 5, 0, 0, 1);"
-                      prefWidth="200">
-                    <padding>
-                        <Insets top="10" right="10" bottom="10" left="10"/>
-                    </padding>
-                    <children>
-                        <Label text="Total Orders" style="-fx-font-size: 14px;"/>
-                        <Label fx:id="lblTotalOrders" text="0" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-                    </children>
-                </VBox>
+                                                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;" prefWidth="200">
+                                                    <children>
+                                                        <Label text="Livraisons En Cours" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                                                        <Label fx:id="lblActiveDeliveries" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                                                    </children>
+                                                </VBox>
 
-                <VBox spacing="6"
-                      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, gray, 5, 0, 0, 1);"
-                      prefWidth="200">
-                    <padding>
-                        <Insets top="10" right="10" bottom="10" left="10"/>
-                    </padding>
-                    <children>
-                        <Label text="Pending Deliveries" style="-fx-font-size: 14px;"/>
-                        <Label fx:id="lblPending" text="0" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-                    </children>
-                </VBox>
+                                                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;" prefWidth="200">
+                                                    <children>
+                                                        <Label text="Livreurs Actifs" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                                                        <Label fx:id="lblActiveCouriers" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                                                    </children>
+                                                </VBox>
 
-                <VBox spacing="6"
-                      style="-fx-background-color: white; -fx-effect: dropshadow(three-pass-box, gray, 5, 0, 0, 1);"
-                      prefWidth="200">
-                    <padding>
-                        <Insets top="10" right="10" bottom="10" left="10"/>
-                    </padding>
-                    <children>
-                        <Label text="Active Couriers" style="-fx-font-size: 14px;"/>
-                        <Label fx:id="lblActiveCouriers" text="0" style="-fx-font-size: 22px; -fx-font-weight: bold;"/>
-                    </children>
-                </VBox>
-            </HBox>
+                                                <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;" prefWidth="200">
+                                                    <children>
+                                                        <Label text="Livrées Aujourd'hui" style="-fx-font-size: 14px; -fx-text-fill: #666;"/>
+                                                        <Label fx:id="lblDeliveredToday" text="0" style="-fx-font-size: 32px; -fx-font-weight: bold; -fx-text-fill: #9b59b6;"/>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </HBox>
 
-            <!-- ORDERS TABLE -->
-            <TableView fx:id="ordersTable" prefHeight="500">
-                <columns>
-                    <TableColumn fx:id="colOrderId" text="Order ID" prefWidth="100"/>
-                    <TableColumn fx:id="colStoreName" text="Store" prefWidth="140"/>
-                    <TableColumn fx:id="colCustomer" text="Customer Address" prefWidth="200"/>
-                    <TableColumn fx:id="colStatus" text="Status" prefWidth="120"/>
-                    <TableColumn fx:id="colCourier" text="Courier" prefWidth="140"/>
-                    <TableColumn fx:id="colAction" text="Action" prefWidth="120"/>
-                </columns>
-            </TableView>
-        </VBox>
+                                        <!-- RECENT ACTIVITIES -->
+                                        <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                                            <children>
+                                                <Label text="Activités Récentes" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                                <TableView fx:id="recentActivitiesTable" prefHeight="300">
+                                                    <columns>
+                                                        <TableColumn fx:id="colActivityTime" text="Heure" prefWidth="120"/>
+                                                        <TableColumn fx:id="colActivityType" text="Type" prefWidth="150"/>
+                                                        <TableColumn fx:id="colActivityDescription" text="Description" prefWidth="400"/>
+                                                    </columns>
+                                                </TableView>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+
+                <!-- TAB 2: GESTION DES LIVREURS -->
+                <Tab text="🚚 Gestion des Livreurs">
+                    <content>
+                        <VBox spacing="15" style="-fx-background-color: #ffc996;">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            <children>
+                                <!-- HEADER WITH ADD BUTTON -->
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <children>
+                                        <Label text="Liste des Livreurs" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                                        <Pane HBox.hgrow="ALWAYS"/>
+                                        <Button fx:id="btnAddCourier" text="➕ Ajouter Livreur" onAction="#ajouterLivreur"
+                                                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+                                    </children>
+                                </HBox>
+
+                                <!-- COURIERS TABLE -->
+                                <TableView fx:id="couriersTable" style="-fx-background-color: white; -fx-background-radius: 10;">
+                                    <columns>
+                                        <TableColumn fx:id="colCourierId" text="ID" prefWidth="60"/>
+                                        <TableColumn fx:id="colCourierName" text="Nom" prefWidth="200"/>
+                                        <TableColumn fx:id="colCourierPhone" text="Prenom" prefWidth="200"/>
+                                        <TableColumn fx:id="colCourierEmail" text="Email" prefWidth="450"/>
+                                        <TableColumn fx:id="colCourierStatus" text="Mot de pass" prefWidth="450"/>
+                                        <TableColumn fx:id="colCourierActions" text="Disponibilite" prefWidth="130"/>
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- TAB 3: GESTION DES COMMANDES -->
+                <Tab text="📦 Gestion des Commandes">
+                    <content>
+                        <VBox spacing="15" style="-fx-background-color: #ffc996;">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            <children>
+                                <!-- HEADER -->
+                                <HBox alignment="CENTER_LEFT" spacing="10">
+                                    <children>
+                                        <Label text="Liste des Commandes" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                                        <Pane HBox.hgrow="ALWAYS"/>
+                                        <ComboBox fx:id="cmbOrderStatusFilter" promptText="Filtrer par statut" prefWidth="180"/>
+                                        <TextField fx:id="txtSearchOrder" promptText="🔍 Rechercher..." prefWidth="250"/>
+                                        <Button fx:id="btnAddOrder" text="➕ Nouvelle Commande"
+                                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+                                    </children>
+                                </HBox>
+
+                                <!-- ORDERS TABLE -->
+                                <TableView fx:id="ordersTable" style="-fx-background-color: white; -fx-background-radius: 10;">
+                                    <columns>
+                                        <TableColumn fx:id="colOrderId" text="ID" prefWidth="70"/>
+                                        <TableColumn fx:id="colOrderDate" text="Date" prefWidth="120"/>
+                                        <TableColumn fx:id="colOrderPackages" text="Nb Colis" prefWidth="80"/>
+                                        <TableColumn fx:id="colOrderWeight" text="Poids Total" prefWidth="100"/>
+                                        <TableColumn fx:id="colOrderSource" text="Source" prefWidth="180"/>
+                                        <TableColumn fx:id="colOrderDestination" text="Destination" prefWidth="200"/>
+                                        <TableColumn fx:id="colOrderStatus" text="Statut" prefWidth="120"/>
+                                        <TableColumn fx:id="colOrderActions" text="Actions" prefWidth="200"/>
+                                    </columns>
+                                </TableView>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+
+                <!-- TAB 4: GESTION DES LIVRAISONS -->
+                <Tab text="🚛 Gestion des Livraisons">
+                    <content>
+                        <ScrollPane fitToWidth="true" style="-fx-background-color: #ffc996;">
+                            <content>
+                                <VBox spacing="20" style="-fx-background-color: #ffc996;">
+                                    <padding>
+                                        <Insets top="20" right="20" bottom="20" left="20"/>
+                                    </padding>
+                                    <children>
+                                        <!-- SECTION 1: CREATE DELIVERY -->
+                                        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                                            <children>
+                                                <Label text="Créer une Nouvelle Livraison" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                                <Separator/>
+
+                                                <HBox spacing="10" alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label text="Sélectionnez les commandes à regrouper:"/>
+                                                        <Pane HBox.hgrow="ALWAYS"/>
+                                                        <Label fx:id="lblSelectedOrders" text="0 commande(s) sélectionnée(s)" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                    </children>
+                                                </HBox>
+
+                                                <TableView fx:id="availableOrdersTable" prefHeight="250">
+                                                    <columns>
+                                                        <TableColumn fx:id="colSelectOrder" text="☑" prefWidth="50"/>
+                                                        <TableColumn fx:id="colAvailOrderId" text="ID" prefWidth="60"/>
+                                                        <TableColumn fx:id="colAvailOrderPackages" text="Colis" prefWidth="70"/>
+                                                        <TableColumn fx:id="colAvailOrderWeight" text="Poids" prefWidth="80"/>
+                                                        <TableColumn fx:id="colAvailOrderSource" text="Source" prefWidth="180"/>
+                                                        <TableColumn fx:id="colAvailOrderDest" text="Destination" prefWidth="200"/>
+                                                        <TableColumn fx:id="colAvailOrderZone" text="Zone" prefWidth="100"/>
+                                                    </columns>
+                                                </TableView>
+
+                                                <HBox spacing="15" alignment="CENTER">
+                                                    <children>
+                                                        <VBox spacing="5" alignment="CENTER">
+                                                            <children>
+                                                                <Label text="Poids Total" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                                                                <Label fx:id="lblTotalWeight" text="0 kg" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                                            </children>
+                                                        </VBox>
+                                                        <Separator orientation="VERTICAL"/>
+                                                        <VBox spacing="5" alignment="CENTER">
+                                                            <children>
+                                                                <Label text="Total Colis" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                                                                <Label fx:id="lblTotalPackages" text="0" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                                            </children>
+                                                        </VBox>
+                                                        <Pane HBox.hgrow="ALWAYS"/>
+                                                        <Button fx:id="btnCreateDelivery" text="🚛 Créer la Livraison"
+                                                                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 12 30; -fx-background-radius: 5; -fx-font-size: 14px;"/>
+                                                    </children>
+                                                </HBox>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- SECTION 2: UNASSIGNED DELIVERIES -->
+                                        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                                            <children>
+                                                <Label text="Livraisons Non Assignées" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                                <Separator/>
+
+                                                <TableView fx:id="unassignedDeliveriesTable" prefHeight="200">
+                                                    <columns>
+                                                        <TableColumn fx:id="colUnassignedId" text="ID Livraison" prefWidth="100"/>
+                                                        <TableColumn fx:id="colUnassignedOrders" text="Nb Commandes" prefWidth="120"/>
+                                                        <TableColumn fx:id="colUnassignedWeight" text="Poids Total" prefWidth="100"/>
+                                                        <TableColumn fx:id="colUnassignedZone" text="Zone" prefWidth="120"/>
+                                                        <TableColumn fx:id="colUnassignedDate" text="Date Création" prefWidth="140"/>
+                                                        <TableColumn fx:id="colUnassignedActions" text="Actions" prefWidth="250"/>
+                                                    </columns>
+                                                </TableView>
+                                            </children>
+                                        </VBox>
+
+                                        <!-- SECTION 3: ACTIVE DELIVERIES -->
+                                        <VBox spacing="15" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                                            <children>
+                                                <Label text="Livraisons En Cours" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
+                                                <Separator/>
+
+                                                <TableView fx:id="activeDeliveriesTable" prefHeight="300">
+                                                    <columns>
+                                                        <TableColumn fx:id="colActiveId" text="ID" prefWidth="80"/>
+                                                        <TableColumn fx:id="colActiveCourier" text="Livreur" prefWidth="150"/>
+                                                        <TableColumn fx:id="colActiveStatus" text="Statut" prefWidth="120"/>
+                                                        <TableColumn fx:id="colActiveOrders" text="Commandes" prefWidth="100"/>
+                                                        <TableColumn fx:id="colActiveDate" text="Date Assignation" prefWidth="140"/>
+                                                        <TableColumn fx:id="colActiveLastUpdate" text="Dernière MAJ" prefWidth="140"/>
+                                                        <TableColumn fx:id="colActiveActions" text="Actions" prefWidth="220"/>
+                                                    </columns>
+                                                </TableView>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </VBox>
+                            </content>
+                        </ScrollPane>
+                    </content>
+                </Tab>
+
+                <!-- TAB 5: HISTORIQUE -->
+                <Tab text="📜 Historique des Livraisons">
+                    <content>
+                        <VBox spacing="15" style="-fx-background-color: #ffc996;">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            <children>
+                                <!-- FILTERS -->
+                                <HBox spacing="15" alignment="CENTER_LEFT" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;">
+                                    <children>
+                                        <Label text="Filtres:" style="-fx-font-weight: bold;"/>
+                                        <ComboBox fx:id="cmbHistoryPeriod" promptText="Période" prefWidth="150"/>
+                                        <ComboBox fx:id="cmbHistoryCourier" promptText="Livreur" prefWidth="180"/>
+                                        <ComboBox fx:id="cmbHistoryZone" promptText="Zone" prefWidth="150"/>
+                                        <Button fx:id="btnApplyFilters" text="🔍 Appliquer"
+                                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 5;"/>
+                                        <Button fx:id="btnResetFilters" text="↻ Réinitialiser"
+                                                style="-fx-background-color: #95a5a6; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 5;"/>
+                                        <Pane HBox.hgrow="ALWAYS"/>
+                                        <Button fx:id="btnExportHistory" text="📄 Exporter"
+                                                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 8 20; -fx-background-radius: 5;"/>
+                                    </children>
+                                </HBox>
+
+                                <!-- HISTORY TABLE -->
+                                <TableView fx:id="historyTable" style="-fx-background-color: white; -fx-background-radius: 10;">
+                                    <columns>
+                                        <TableColumn fx:id="colHistoryId" text="ID" prefWidth="70"/>
+                                        <TableColumn fx:id="colHistoryCourier" text="Livreur" prefWidth="150"/>
+                                        <TableColumn fx:id="colHistoryOrders" text="Commandes" prefWidth="100"/>
+                                        <TableColumn fx:id="colHistoryCreated" text="Date Création" prefWidth="140"/>
+                                        <TableColumn fx:id="colHistoryDelivered" text="Date Livraison" prefWidth="140"/>
+                                        <TableColumn fx:id="colHistoryDuration" text="Durée" prefWidth="100"/>
+                                        <TableColumn fx:id="colHistoryZone" text="Zone" prefWidth="120"/>
+                                        <TableColumn fx:id="colHistoryActions" text="Actions" prefWidth="150"/>
+                                    </columns>
+                                </TableView>
+
+                                <!-- STATISTICS SUMMARY -->
+                                <HBox spacing="20" alignment="CENTER" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 20;">
+                                    <children>
+                                        <VBox spacing="5" alignment="CENTER">
+                                            <children>
+                                                <Label text="Total Livraisons" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                                                <Label fx:id="lblHistoryTotal" text="0" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #f3992e;"/>
+                                            </children>
+                                        </VBox>
+                                        <Separator orientation="VERTICAL"/>
+                                        <VBox spacing="5" alignment="CENTER">
+                                            <children>
+                                                <Label text="Durée Moyenne" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                                                <Label fx:id="lblHistoryAvgDuration" text="0h 0m" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #3498db;"/>
+                                            </children>
+                                        </VBox>
+                                        <Separator orientation="VERTICAL"/>
+                                        <VBox spacing="5" alignment="CENTER">
+                                            <children>
+                                                <Label text="Taux de Réussite" style="-fx-font-size: 12px; -fx-text-fill: #666;"/>
+                                                <Label fx:id="lblHistorySuccessRate" text="0%" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #27ae60;"/>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </Tab>
+            </tabs>
+        </TabPane>
     </center>
 
 </BorderPane>

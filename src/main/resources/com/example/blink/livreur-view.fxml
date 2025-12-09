@@ -1,121 +1,285 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.TabPane?>
-<?import javafx.scene.effect.DropShadow?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
+<BorderPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="com.example.blink.Controllers.livreurController"
+            style="-fx-background-color: #ffc996;">
 
-<AnchorPane //////////////////////*+>
-    <children>
-        <VBox prefHeight="42.0" prefWidth="600.0">
+    <!-- HEADER -->
+    <top>
+        <HBox prefHeight="50.0" style="-fx-background-color: #f3992e;" alignment="CENTER_LEFT">
+            <padding>
+                <Insets top="10" right="20" bottom="10" left="20"/>
+            </padding>
             <children>
-                <HBox prefHeight="42.0" prefWidth="90.0">
+                <ImageView fitHeight="40.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@elements/blik_logo.png" />
+                    </image>
+                </ImageView>
+                <Label text="BLIK Livreur" style="-fx-text-fill: white; -fx-font-size: 20px; -fx-font-weight: bold;">
+                    <HBox.margin>
+                        <Insets left="15.0"/>
+                    </HBox.margin>
+                </Label>
+                <Pane HBox.hgrow="ALWAYS"/>
+                <VBox alignment="CENTER_RIGHT" spacing="2">
                     <children>
-                        <ImageView fitHeight="43.0" fitWidth="64.0" pickOnBounds="true" preserveRatio="true">
-                            <image>
-                                <Image url="@elements/blik_logo.png" />
-                            </image>
-                            <HBox.margin>
-                                <Insets left="15.0" />
-                            </HBox.margin>
-                  </ImageView>
+                        <Label fx:id="lblLivreurName" text="Livreur" style="-fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: bold;"/>
                     </children>
-                </HBox>
+                </VBox>
             </children>
-        </VBox>
-        <TabPane layoutX="18.0" layoutY="55.0" prefHeight="320.0" prefWidth="558.0" tabClosingPolicy="UNAVAILABLE">
+        </HBox>
+    </top>
+
+    <!-- MAIN CONTENT -->
+    <center>
+        <TabPane fx:id="mainTabPane" tabClosingPolicy="UNAVAILABLE">
             <tabs>
-                <Tab text="📦Livraison">
+                <!-- TAB 1: LIVRAISONS DISPONIBLES -->
+                <Tab text="📦 Livraisons Disponibles">
                     <content>
-                        <ScrollPane>
-                            <content>
-                                <VBox style="-fx-background-color: #f3992e;">
+                        <VBox spacing="15" style="-fx-background-color: #ffc996;">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            <children>
+                                <!-- HEADER INFO -->
+                                <VBox spacing="8" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;">
                                     <children>
-                                        <VBox prefHeight="46.0" prefWidth="559.0">
+                                        <Label text="Livraisons Disponibles" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                        <Label text="Sélectionnez une livraison pour commencer. Maximum 3 livraisons actives à la fois."
+                                               style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
                                             <children>
-                                                <Label prefHeight="38.0" prefWidth="260.0" text="Livraison disponibles:">
-                                                    <VBox.margin>
-                                                        <Insets left="6.0" top="2.0" />
-                                                    </VBox.margin>
-                                                    <font>
-                                                        <Font size="24.0" />
-                                                    </font>
-                                                </Label>
-                                                <Label text="Sélectionnez une livraison pour commencer">
-                                                    <VBox.margin>
-                                                        <Insets bottom="17.0" left="9.0" />
-                                                    </VBox.margin>
-                                                </Label>
+                                                <Label text="Statut:" style="-fx-font-weight: bold;"/>
+                                                <Label fx:id="lblAvailableCount" text="0 livraison(s) disponible(s)" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                <Pane HBox.hgrow="ALWAYS"/>
+
                                             </children>
-
-                                              </VBox>
-                              <GridPane hgap="15" prefHeight="197.0" prefWidth="559.0" vgap="15">
-                                <columnConstraints>
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                                  <VBox style="-fx-background-color: white; -fx-padding: 12; -fx-background-radius: 10;" GridPane.columnIndex="0" GridPane.rowIndex="0">
-                                      <Label text="Nom Client" />
-                                      <Label text="Adresse" />
-                                      <Button text="accepter" />
-                                  </VBox>
-                                  <VBox style="-fx-background-color: white; -fx-padding: 12; -fx-background-radius: 10;" GridPane.columnIndex="1" GridPane.rowIndex="0">
-                                      <Label text="Nom Client" />
-                                      <Label text="Adresse" />
-                                      <Button text="accepter" />
-                                  </VBox>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                                 <cursor>
-                                    <Cursor fx:constant="CROSSHAIR" />
-                                 </cursor>
-                                 <effect>
-                                    <DropShadow />
-                                 </effect>
-                                 <padding>
-                                    <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
-                                 </padding>
-                              </GridPane>
+                                        </HBox>
                                     </children>
+                                </VBox>
+
+                                <!-- DELIVERIES GRID (FLEXIBLE) -->
+                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                                    <content>
+                                        <FlowPane fx:id="availableDeliveriesPane"
+                                                  hgap="15"
+                                                  vgap="15"
+                                                  alignment="TOP_LEFT"
+                                                  prefWrapLength="900">
+                                            <!-- Les cartes de livraison seront ajoutées dynamiquement ici -->
+                                            <!-- EXEMPLE DE CARTE (à générer dynamiquement dans le controller) -->
+                                            <!--
+                                            <VBox spacing="12"
+                                                  style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 18; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 8, 0, 0, 2);"
+                                                  prefWidth="280"
+                                                  prefHeight="220">
+                                                <children>
+                                                    <HBox alignment="CENTER_LEFT" spacing="8">
+                                                        <children>
+                                                            <Label text="🚛" style="-fx-font-size: 24px;"/>
+                                                            <Label text="Livraison #123" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+                                                    <Separator/>
+
+                                                    <HBox spacing="8">
+                                                        <children>
+                                                            <Label text="📦 Commandes:" style="-fx-font-weight: bold; -fx-min-width: 100;"/>
+                                                            <Label text="3" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <HBox spacing="8">
+                                                        <children>
+                                                            <Label text="⚖️ Poids Total:" style="-fx-font-weight: bold; -fx-min-width: 100;"/>
+                                                            <Label text="15.5 kg" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <HBox spacing="8">
+                                                        <children>
+                                                            <Label text="📍 Zone:" style="-fx-font-weight: bold; -fx-min-width: 100;"/>
+                                                            <Label text="Centre-ville" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <Pane VBox.vgrow="ALWAYS"/>
+
+                                                    <VBox spacing="8">
+                                                        <children>
+                                                            <Button text="👁️ Voir les commandes" maxWidth="Infinity"
+                                                                    style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-padding: 8; -fx-background-radius: 5; -fx-font-weight: bold;"/>
+                                                            <Button text="✅ Accepter la livraison" maxWidth="Infinity"
+                                                                    style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-padding: 10; -fx-background-radius: 5; -fx-font-weight: bold; -fx-font-size: 13px;"/>
+                                                        </children>
+                                                    </VBox>
+                                                </children>
+                                            </VBox>
+                                            -->
+                                        </FlowPane>
+                                    </content>
+                                </ScrollPane>
+
+                                <!-- EMPTY STATE (si aucune livraison) -->
+                                <VBox fx:id="emptyStateAvailable"
+                                      spacing="15"
+                                      alignment="CENTER"
+                                      style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 50;"
+                                      visible="false">
+                                    <children>
+                                        <Label text="📭" style="-fx-font-size: 64px;"/>
+                                        <Label text="Aucune livraison disponible pour le moment" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+                                        <Label text="Les nouvelles livraisons apparaîtront ici automatiquement" style="-fx-font-size: 13px; -fx-text-fill: #95a5a6;"/>
+                                    </children>
+                                </VBox>
+                            </children>
                         </VBox>
-                            </content>
-
-                              </ScrollPane>
                     </content>
                 </Tab>
 
-                      <Tab text="🔔Notifications">
+                <!-- TAB 2: MES LIVRAISONS -->
+                <Tab text="👤 Mes Livraisons">
                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        <VBox spacing="15" style="-fx-background-color: #ffc996;">
+                            <padding>
+                                <Insets top="20" right="20" bottom="20" left="20"/>
+                            </padding>
+                            <children>
+                                <!-- HEADER INFO -->
+                                <VBox spacing="8" style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 15;">
+                                    <children>
+                                        <Label text="Mes Livraisons Actives" style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;"/>
+                                        <Label text="Gérez vos livraisons en cours. Vous pouvez avoir maximum 3 livraisons actives."
+                                               style="-fx-font-size: 13px; -fx-text-fill: #7f8c8d;"/>
+                                        <HBox spacing="10" alignment="CENTER_LEFT">
+                                            <children>
+                                                <Label text="Statut:" style="-fx-font-weight: bold;"/>
+                                                <Label fx:id="lblMyDeliveriesCount" text="0/3 livraison(s) active(s)"
+                                                       style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                <Pane HBox.hgrow="ALWAYS"/>
+                                                <Label fx:id="lblLimitWarning"
+                                                       text="⚠️ Limite atteinte! Terminez une livraison pour en accepter une nouvelle."
+                                                       style="-fx-text-fill: #e74c3c; -fx-font-weight: bold;"
+                                                       visible="false"/>
+                                            </children>
+                                        </HBox>
+                                    </children>
+                                </VBox>
+
+                                <!-- MY DELIVERIES GRID (MAX 3) -->
+                                <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+                                    <content>
+                                        <FlowPane fx:id="myDeliveriesPane"
+                                                  hgap="15"
+                                                  vgap="15"
+                                                  alignment="TOP_LEFT"
+                                                  prefWrapLength="900">
+                                            <!-- Les cartes de livraison actives seront ajoutées dynamiquement ici -->
+                                            <!-- EXEMPLE DE CARTE (à générer dynamiquement dans le controller) -->
+                                            <!--
+                                            <VBox spacing="12"
+                                                  style="-fx-background-color: white; -fx-background-radius: 12; -fx-padding: 18; -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.15), 8, 0, 0, 2); -fx-border-color: #3498db; -fx-border-width: 2; -fx-border-radius: 12;"
+                                                  prefWidth="380"
+                                                  prefHeight="320">
+                                                <children>
+                                                    <HBox alignment="CENTER_LEFT" spacing="8">
+                                                        <children>
+                                                            <Label text="🚛" style="-fx-font-size: 24px;"/>
+                                                            <Label text="Livraison #123" style="-fx-font-size: 16px; -fx-font-weight: bold;"/>
+                                                            <Pane HBox.hgrow="ALWAYS"/>
+                                                            <Label text="EN COURS" style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-padding: 4 8; -fx-background-radius: 4; -fx-font-size: 10px; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+                                                    <Separator/>
+
+                                                    <HBox spacing="8">
+                                                        <children>
+                                                            <Label text="📦 Commandes:" style="-fx-font-weight: bold; -fx-min-width: 110;"/>
+                                                            <Label text="3" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <HBox spacing="8">
+                                                        <children>
+                                                            <Label text="⚖️ Poids Total:" style="-fx-font-weight: bold; -fx-min-width: 110;"/>
+                                                            <Label text="15.5 kg" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <HBox spacing="8">
+                                                        <children>
+                                                            <Label text="📍 Zone:" style="-fx-font-weight: bold; -fx-min-width: 110;"/>
+                                                            <Label text="Centre-ville" style="-fx-text-fill: #f3992e; -fx-font-weight: bold;"/>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <HBox spacing="8">
+                                                        <children>
+                                                            <Label text="🕐 Acceptée le:" style="-fx-font-weight: bold; -fx-min-width: 110;"/>
+                                                            <Label text="10:30" style="-fx-text-fill: #7f8c8d;"/>
+                                                        </children>
+                                                    </HBox>
+
+                                                    <Separator/>
+
+                                                    <VBox spacing="8">
+                                                        <children>
+                                                            <Label text="Statut de la livraison:" style="-fx-font-weight: bold;"/>
+                                                            <VBox spacing="5">
+                                                                <children>
+                                                                    <RadioButton text="🏪 En stock (récupération en cours)" style="-fx-font-size: 12px;"/>
+                                                                    <RadioButton text="🚚 En course (en transit)" style="-fx-font-size: 12px;" selected="true"/>
+                                                                    <RadioButton text="✅ Livrée (terminée)" style="-fx-font-size: 12px;"/>
+                                                                </children>
+                                                            </VBox>
+                                                        </children>
+                                                    </VBox>
+
+                                                    <Pane VBox.vgrow="ALWAYS"/>
+
+                                                    <Button text="👁️ Voir détails des commandes" maxWidth="Infinity"
+                                                            style="-fx-background-color: #ecf0f1; -fx-text-fill: #2c3e50; -fx-padding: 10; -fx-background-radius: 5; -fx-font-weight: bold;"/>
+                                                </children>
+                                            </VBox>
+                                            -->
+                                        </FlowPane>
+                                    </content>
+                                </ScrollPane>
+
+                                <!-- EMPTY STATE (si aucune livraison active) -->
+                                <VBox fx:id="emptyStateMyDeliveries"
+                                      spacing="15"
+                                      alignment="CENTER"
+                                      style="-fx-background-color: white; -fx-background-radius: 10; -fx-padding: 50;"
+                                      visible="false">
+                                    <children>
+                                        <Label text="📦" style="-fx-font-size: 64px;"/>
+                                        <Label text="Vous n'avez aucune livraison active" style="-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #7f8c8d;"/>
+                                        <Label text="Acceptez une livraison depuis l'onglet 'Livraisons Disponibles'" style="-fx-font-size: 13px; -fx-text-fill: #95a5a6;"/>
+                                    </children>
+                                </VBox>
+
+
+                            </children>
+                        </VBox>
                     </content>
                 </Tab>
-                <Tab text="👤Profile">
-                    <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-                    </content>
-                </Tab>
+
+
             </tabs>
         </TabPane>
-    </children>
-</AnchorPane>
+    </center>
+
+
+
+</BorderPane>

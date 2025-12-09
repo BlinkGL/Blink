@@ -1,7 +1,15 @@
 package com.example.blink.Controllers;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class AdminDashboardController {
     @FXML private Label lblTotalOrders;
@@ -20,5 +28,19 @@ public class AdminDashboardController {
     public void initialize() {
         // TODO: populate table with data
         // TODO: update labels with real stats
+    }
+
+    @FXML
+    private void ajouterLivreur(ActionEvent event) throws IOException {
+
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/blink/Sign-up.fxml"));
+
+        Scene scene = new Scene(root,320,240);
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.setScene(scene);
+        stage.centerOnScreen();
+        stage.setFullScreen(true);
+
+        stage.show();
     }
 }
