@@ -59,15 +59,15 @@
                                 </HBox>
 
                                 <!-- COURIERS TABLE -->
-                                <TableView fx:id="couriersTable" style="-fx-background-color: white; -fx-background-radius: 10;">
+                                <TableView fx:id="couriersTable" editable="true" style="-fx-background-color: white; -fx-background-radius: 10;">
                                     <columns>
-                                        <TableColumn fx:id="colLivreurId" text="ID" prefWidth="60"/>
-                                        <TableColumn fx:id="colLivreurNom" text="Nom" prefWidth="200"/>
-                                        <TableColumn fx:id="colLivreurPrenom" text="Prenom" prefWidth="200"/>
-                                        <TableColumn fx:id="colLivreurEmail" text="Email" prefWidth="350"/>
-                                        <TableColumn fx:id="colLivreurMotdepass" text="Mot de pass" prefWidth="350"/>
-                                        <TableColumn fx:id="colLivreurDispo" text="Disponibilite" prefWidth="100"/>
-                                        <TableColumn fx:id="colLivreurDelete" text="Actions" prefWidth="150"/>
+                                        <TableColumn fx:id="colCourierId" text="ID"/>
+                                        <TableColumn fx:id="colCourierName" text="Nom"/>
+                                        <TableColumn fx:id="colCourierPrenom" text="Prénom"/>
+                                        <TableColumn fx:id="colCourierEmail" text="Email"/>
+                                        <TableColumn fx:id="colCourierPassword" text="Mot de passe"/>
+                                        <TableColumn fx:id="colCourierDisponibilite" text="Disponible"/>
+                                        <TableColumn fx:id="colCourierActions" text="Actions"/>
                                     </columns>
                                 </TableView>
                             </children>
