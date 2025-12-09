@@ -8,6 +8,7 @@ module com.example.blink {
     requires org.kordamp.bootstrapfx.core;
     requires javafx.graphics;
     requires javafx.base;
+    requires java.desktop;
 
 
     // Allow FXML to access the main package

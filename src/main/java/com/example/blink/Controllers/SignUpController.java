@@ -3,13 +3,9 @@ package com.example.blink.Controllers;
 import com.example.blink.DAO.UserDAO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
-import javafx.stage.Stage;
 import javafx.scene.control.Alert;
 
 
@@ -36,9 +32,8 @@ public class SignUpController {
             return;
         }
 
-        String role = "admin";
 
-        boolean success = UserDAO.createUtilisateur(nom, prenom, email, password, role);
+        boolean success = UserDAO.createUtilisateur(nom, prenom, email, password);
 
         if (success) {
             showAlert("Succès", "Compte admin créé avec succès !");
@@ -61,14 +56,7 @@ public class SignUpController {
 
 
     public void goToLogin(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/blink/Login.fxml"));
 
-        Scene scene = new Scene(root,320,240);
-        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        stage.setScene(scene);
-        stage.centerOnScreen();
-        stage.setFullScreen(true);
-
-        stage.show();
+        SceneManager.switchScene(event, "Login.fxml");
     }
 }
