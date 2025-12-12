@@ -1,50 +1,31 @@
 package com.example.blink.Class;
 
+import javafx.beans.property.*;
 
 public class Commande {
 
-    private int idCommande;
-    private int idClient;
-    private Colis ListColis;
+    private final IntegerProperty id_commande;
+    private final IntegerProperty id_client;
+    private final IntegerProperty id_livraison;
+    private final ObjectProperty<StatutCommande> statut; // use enum here
 
-
-    public Commande(int idCommande, int idClient, Colis ListColis)
-    {
-        this.idCommande= idCommande;
-        this.idClient= idClient;
-        this.ListColis= ListColis;
+    public Commande(int id_commande, int id_client, Integer id_livraison, StatutCommande statut) {
+        this.id_commande = new SimpleIntegerProperty(id_commande);
+        this.id_client = new SimpleIntegerProperty(id_client);
+        this.id_livraison = new SimpleIntegerProperty(id_livraison != null ? id_livraison : 0);
+        this.statut = new SimpleObjectProperty<>(statut);
     }
 
-    public int getIdCommande(int idCommande)
-    {
-        return idCommande;
-    }
+    public int getId_commande() { return id_commande.get(); }
+    public IntegerProperty id_commandeProperty() { return id_commande; }
 
-    public void setIdCommande()
-    {
-        this.idCommande=idCommande;
-    }
+    public int getId_client() { return id_client.get(); }
+    public IntegerProperty id_clientProperty() { return id_client; }
 
-    public int getIdClient(int idClient)
-    {
-        return idClient;
-    }
+    public int getId_livraison() { return id_livraison.get(); }
+    public IntegerProperty id_livraisonProperty() { return id_livraison; }
 
-    public void setIdClient()
-    {
-        this.idClient=idClient;
-    }
-
-
-    public Colis getListColis(Colis listColis)
-    {
-        return listColis;
-    }
-
-    public void setListColis()
-    {
-        this.ListColis=ListColis;
-    }
-
-
+    public StatutCommande getStatut() { return statut.get(); }
+    public void setStatut(StatutCommande statut) { this.statut.set(statut); }
+    public ObjectProperty<StatutCommande> statutProperty() { return statut; }
 }

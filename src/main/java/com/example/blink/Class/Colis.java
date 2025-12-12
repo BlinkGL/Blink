@@ -6,6 +6,7 @@ public class Colis {
 
     private final IntegerProperty id;
     private final IntegerProperty id_commande;
+    private final IntegerProperty id_client;
     private final StringProperty nom;
     private final StringProperty source;
     private final DoubleProperty poids;
@@ -14,9 +15,10 @@ public class Colis {
     // Add this for checkbox selection
     private final BooleanProperty selected = new SimpleBooleanProperty(false);
 
-    public Colis(int id, Integer id_commande, String nom, String source, double poids, int quantite) {
+    public Colis(int id, Integer id_commande, int id_client, String nom, String source, double poids, int quantite) {
         this.id = new SimpleIntegerProperty(id);
         this.id_commande = new SimpleIntegerProperty(id_commande != null ? id_commande : 0);
+        this.id_client = new SimpleIntegerProperty(id_client);
         this.nom = new SimpleStringProperty(nom);
         this.source = new SimpleStringProperty(source);
         this.poids = new SimpleDoubleProperty(poids);
@@ -26,6 +28,7 @@ public class Colis {
     // ------ Getters ------
     public int getId() { return id.get(); }
     public int getId_commande() { return id_commande.get(); }
+    public int getId_client() { return id_client.get(); }
     public String getNom() { return nom.get(); }
     public String getSource() { return source.get(); }
     public double getPoids() { return poids.get(); }
@@ -34,6 +37,7 @@ public class Colis {
     // ------ Property getters ------
     public IntegerProperty idProperty() { return id; }
     public IntegerProperty id_commandeProperty() { return id_commande; }
+    public IntegerProperty id_clientProperty() { return id_client; }
     public StringProperty nomProperty() { return nom; }
     public StringProperty sourceProperty() { return source; }
     public DoubleProperty poidsProperty() { return poids; }

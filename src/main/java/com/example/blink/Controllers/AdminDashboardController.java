@@ -1,9 +1,13 @@
 package com.example.blink.Controllers;
 
 import com.example.blink.Class.Colis;
+import com.example.blink.Class.Commande;
 import com.example.blink.Class.Livreur;
+import com.example.blink.Class.StatutCommande;
 import com.example.blink.DAO.ColisDAO;
+import com.example.blink.DAO.CommandDAO;
 import com.example.blink.DAO.LivreurDAO;
+import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,12 +38,19 @@ public class AdminDashboardController {
     @FXML private TableColumn<Colis, Boolean> colColisSelect;
     @FXML private TableColumn<Colis, Integer> colColisId;
     @FXML private TableColumn<Colis, Integer> colColisIdCommande;
+    @FXML private TableColumn<Colis, Integer> colColisIdClient;
     @FXML private TableColumn<Colis, String> colColisNom;
     @FXML private TableColumn<Colis, String> colColisSource;
     @FXML private TableColumn<Colis, Double> colColisPoids;
     @FXML private TableColumn<Colis, Integer> colColisQuantite;
     @FXML private Label lblTotalWeight;
     @FXML private Label lblTotalPackages;
+    /* ------------------- Commande Table ------------------- */
+    @FXML private TableView<Commande> CommandeTable;
+    @FXML private TableColumn<Commande, Integer> colCommandeId;
+    @FXML private TableColumn<Commande, Integer> colCommandeIdClient;
+    @FXML private TableColumn<Commande, Integer> colCommandeIdLivraison;
+    @FXML private TableColumn<Commande, StatutCommande> colCommandeStatue;
 
     /* ------------------- DAOs ------------------- */
     private final LivreurDAO livreurDAO = new LivreurDAO();
@@ -52,6 +63,9 @@ public class AdminDashboardController {
 
         setupColisTable();
         loadColis();
+
+        setupCommandeTable();
+        loadCommandesTable();
 
         updateDashboardStats();
     }
@@ -85,6 +99,34 @@ public class AdminDashboardController {
         setupCourierActionColumn();
     }
 
+    /* ------------------- Commande Table ------------------- */
+    private void setupCommandeTable() {
+        colCommandeId.setCellValueFactory(c -> c.getValue().id_commandeProperty().asObject());
+        colCommandeIdClient.setCellValueFactory(c -> c.getValue().id_clientProperty().asObject());
+        colCommandeIdLivraison.setCellValueFactory(c -> c.getValue().id_livraisonProperty().asObject());
+        colCommandeStatue.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().getStatut()));
+    }
+
+    /* ------------------- Colis Table ------------------- */
+    private void setupColisTable() {
+        // Make the column selectable
+        colColisSelect.setCellValueFactory(c -> c.getValue().selectedProperty());
+        colColisSelect.setCellFactory(CheckBoxTableCell.forTableColumn(colColisSelect));
+
+        // Other columns
+        colColisId.setCellValueFactory(c -> c.getValue().idProperty().asObject());
+        colColisIdCommande.setCellValueFactory(c -> c.getValue().id_commandeProperty().asObject());
+        colColisIdClient.setCellValueFactory(c -> c.getValue().id_clientProperty().asObject());
+        colColisNom.setCellValueFactory(c -> c.getValue().nomProperty());
+        colColisSource.setCellValueFactory(c -> c.getValue().sourceProperty());
+        colColisPoids.setCellValueFactory(c -> c.getValue().poidsProperty().asObject());
+        colColisQuantite.setCellValueFactory(c -> c.getValue().quantiteProperty().asObject());
+
+        // Enable editing on table
+        ColisTable.setEditable(true);
+    }
+
+
     private void setupCourierActionColumn() {
         colCourierActions.setCellFactory(new Callback<TableColumn<Livreur, Void>, TableCell<Livreur, Void>>() {
             @Override
@@ -113,23 +155,7 @@ public class AdminDashboardController {
         couriersTable.getItems().setAll(livreurDAO.getAllLivreurs());
     }
 
-    /* ------------------- Colis Table ------------------- */
-    private void setupColisTable() {
-        // Make the column selectable
-        colColisSelect.setCellValueFactory(c -> c.getValue().selectedProperty());
-        colColisSelect.setCellFactory(CheckBoxTableCell.forTableColumn(colColisSelect));
 
-        // Other columns
-        colColisId.setCellValueFactory(c -> c.getValue().idProperty().asObject());
-        colColisIdCommande.setCellValueFactory(c -> c.getValue().id_commandeProperty().asObject());
-        colColisNom.setCellValueFactory(c -> c.getValue().nomProperty());
-        colColisSource.setCellValueFactory(c -> c.getValue().sourceProperty());
-        colColisPoids.setCellValueFactory(c -> c.getValue().poidsProperty().asObject());
-        colColisQuantite.setCellValueFactory(c -> c.getValue().quantiteProperty().asObject());
-
-        // Enable editing on table
-        ColisTable.setEditable(true);
-    }
 
 
     private void loadColis() {
@@ -206,6 +232,60 @@ public class AdminDashboardController {
                 }
             }
         });
+    }
+
+    @FXML
+    private void createCommande(ActionEvent event) {
+        ObservableList<Colis> selectedColis = getSelectedColis();
+
+        if (selectedColis.isEmpty()) {
+            showAlert("Erreur", "Aucun colis sélectionné.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // --- Check if all colis have the same id_client ---
+        int firstClientId = selectedColis.get(0).getId_client();
+        boolean sameClient = selectedColis.stream()
+                .allMatch(c -> c.getId_client() == firstClientId);
+
+        if (!sameClient) {
+            showAlert("Erreur",
+                    "Les colis sélectionnés n'appartiennent pas au même client.\nImpossible de créer la commande.",
+                    Alert.AlertType.ERROR);
+            return;
+        }
+
+        // --- Create the new Commande ---
+        CommandDAO commandDAO = new CommandDAO();
+        int newCommandeId = commandDAO.createCommande(firstClientId);
+
+        if (newCommandeId == -1) {
+            showAlert("Erreur", "Impossible de créer la commande", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // --- Assign selected colis to this new Commande ---
+        for (Colis colis : selectedColis) {
+            boolean updated = colisDAO.assignToCommande(colis.getId(), newCommandeId);
+            if (!updated) {
+                showAlert("Erreur",
+                        "Un colis n'a pas pu être assigné à la commande.",
+                        Alert.AlertType.ERROR);
+            }
+        }
+
+        showAlert("Succès", "Commande créée avec succès : ID = " + newCommandeId, Alert.AlertType.INFORMATION);
+
+        // Refresh colis table (to remove assigned colis)
+        loadColis();
+
+        // Refresh commandes table if you have one
+        loadCommandesTable();
+    }
+
+    private void loadCommandesTable() {
+        CommandDAO dao = new CommandDAO();
+        CommandeTable.getItems().setAll(dao.getAllCommandes());
     }
 
     /* ------------------- Optional Buttons ------------------- */

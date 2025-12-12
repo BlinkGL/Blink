@@ -12,7 +12,7 @@ public class ColisDAO {
     public ObservableList<Colis> getAllColis() {
         ObservableList<Colis> list = FXCollections.observableArrayList();
 
-        String query = "SELECT id, id_commande, nom, source, poids, quantite " +
+        String query = "SELECT id, id_commande, id_client, nom, source, poids, quantite " +
                 "FROM Colis " +
                 "WHERE id_commande IS NULL OR id_commande = 0 " +
                 "ORDER BY id";
@@ -24,7 +24,8 @@ public class ColisDAO {
             while (rs.next()) {
                 list.add(new Colis(
                         rs.getInt("id"),
-                        rs.getObject("id_commande") == null ? 0 : rs.getInt("id_commande"),
+                        rs.getObject("id_commande") != null ? rs.getInt("id_commande") : null,
+                        rs.getInt("id_client"),
                         rs.getString("nom"),
                         rs.getString("source"),
                         rs.getDouble("poids"),
@@ -38,4 +39,23 @@ public class ColisDAO {
 
         return list;
     }
+    // ColisDAO.java
+    public boolean assignToCommande(int colisId, int commandeId) {
+        String sql = "UPDATE Colis SET id_commande = ? WHERE id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, commandeId);
+            stmt.setInt(2, colisId);
+
+            return stmt.executeUpdate() > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Error assigning colis to commande: " + e.getMessage());
+        }
+
+        return false;
+    }
+
 }
