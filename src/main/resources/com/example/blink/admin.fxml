@@ -177,13 +177,14 @@
                                                 <HBox spacing="10">
                                                     <Label text="Commandes Cree" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
                                                     <Pane HBox.hgrow="ALWAYS"/>
-                                                    <Button fx:id="btnAddOrder" text="➕ Nouvelle Livraison"
+                                                    <Button fx:id="btnAddOrder" text="➕ Nouvelle Livraison" onAction="#createLivraison"
                                                             style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"/>
                                                 </HBox>
                                                 <Separator/>
 
                                                 <TableView fx:id="CommandeTable" prefHeight="200">
                                                     <columns>
+                                                        <TableColumn fx:id="colCommandeSelect" text="Select" prefWidth="60"/>
                                                         <TableColumn fx:id="colCommandeId" text="ID" prefWidth="150"/>
                                                         <TableColumn fx:id="colCommandeIdClient" text="Id Client" prefWidth="150"/>
                                                         <TableColumn fx:id="colCommandeIdLivraison" text="Id Livraison " prefWidth="150"/>

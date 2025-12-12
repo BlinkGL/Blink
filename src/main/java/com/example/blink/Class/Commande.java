@@ -3,11 +3,11 @@ package com.example.blink.Class;
 import javafx.beans.property.*;
 
 public class Commande {
-
     private final IntegerProperty id_commande;
     private final IntegerProperty id_client;
     private final IntegerProperty id_livraison;
-    private final ObjectProperty<StatutCommande> statut; // use enum here
+    private final ObjectProperty<StatutCommande> statut;
+    private final BooleanProperty selected = new SimpleBooleanProperty(false);
 
     public Commande(int id_commande, int id_client, Integer id_livraison, StatutCommande statut) {
         this.id_commande = new SimpleIntegerProperty(id_commande);
@@ -16,6 +16,7 @@ public class Commande {
         this.statut = new SimpleObjectProperty<>(statut);
     }
 
+    // Getters and properties
     public int getId_commande() { return id_commande.get(); }
     public IntegerProperty id_commandeProperty() { return id_commande; }
 
@@ -28,4 +29,10 @@ public class Commande {
     public StatutCommande getStatut() { return statut.get(); }
     public void setStatut(StatutCommande statut) { this.statut.set(statut); }
     public ObjectProperty<StatutCommande> statutProperty() { return statut; }
+
+    // Selection
+    public BooleanProperty selectedProperty() { return selected; }
+    public boolean isSelected() { return selected.get(); }
+    public void setSelected(boolean value) { selected.set(value); }
 }
+

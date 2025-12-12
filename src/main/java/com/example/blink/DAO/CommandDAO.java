@@ -102,4 +102,30 @@ public class CommandDAO {
 
         return false;
     }
+
+    public int createLivraison() {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            // FIX: Changed "id_livraison" to "id" to match your database schema
+            String sql = "INSERT INTO livraison DEFAULT VALUES RETURNING id";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) return rs.getInt("id");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    public boolean assignLivraison(int idCommande, int idLivraison) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            String sql = "UPDATE Commande SET id_livraison = ? WHERE id_commande = ?";
+            PreparedStatement stmt = conn.prepareStatement(sql);
+            stmt.setInt(1, idLivraison);
+            stmt.setInt(2, idCommande);
+            return stmt.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 }

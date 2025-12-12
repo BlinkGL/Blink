@@ -47,6 +47,7 @@ public class AdminDashboardController {
     @FXML private Label lblTotalPackages;
     /* ------------------- Commande Table ------------------- */
     @FXML private TableView<Commande> CommandeTable;
+    @FXML private TableColumn<Commande, Boolean> colCommandeSelect;
     @FXML private TableColumn<Commande, Integer> colCommandeId;
     @FXML private TableColumn<Commande, Integer> colCommandeIdClient;
     @FXML private TableColumn<Commande, Integer> colCommandeIdLivraison;
@@ -55,6 +56,7 @@ public class AdminDashboardController {
     /* ------------------- DAOs ------------------- */
     private final LivreurDAO livreurDAO = new LivreurDAO();
     private final ColisDAO colisDAO = new ColisDAO();
+    private final CommandDAO commandDAO = new CommandDAO();
 
     @FXML
     public void initialize() {
@@ -101,10 +103,15 @@ public class AdminDashboardController {
 
     /* ------------------- Commande Table ------------------- */
     private void setupCommandeTable() {
+        colCommandeSelect.setCellValueFactory(c -> c.getValue().selectedProperty());
+        colCommandeSelect.setCellFactory(CheckBoxTableCell.forTableColumn(colCommandeSelect));
+
         colCommandeId.setCellValueFactory(c -> c.getValue().id_commandeProperty().asObject());
         colCommandeIdClient.setCellValueFactory(c -> c.getValue().id_clientProperty().asObject());
         colCommandeIdLivraison.setCellValueFactory(c -> c.getValue().id_livraisonProperty().asObject());
         colCommandeStatue.setCellValueFactory(c -> new ReadOnlyObjectWrapper<>(c.getValue().getStatut()));
+
+        CommandeTable.setEditable(true);
     }
 
     /* ------------------- Colis Table ------------------- */
@@ -195,6 +202,10 @@ public class AdminDashboardController {
         return ColisTable.getItems().filtered(Colis::isSelected);
     }
 
+    public ObservableList<Commande> getSelectedCommandes() {
+        return CommandeTable.getItems().filtered(Commande::isSelected);
+    }
+
     /* ------------------- Dashboard Stats ------------------- */
     private void updateDashboardStats() {
         int totalLivreurs = livreurDAO.getAllLivreurs().size();
@@ -283,10 +294,53 @@ public class AdminDashboardController {
         loadCommandesTable();
     }
 
-    private void loadCommandesTable() {
-        CommandDAO dao = new CommandDAO();
-        CommandeTable.getItems().setAll(dao.getAllCommandes());
+    @FXML
+    private void createLivraison(ActionEvent event) {
+        ObservableList<Commande> selectedCommandes = getSelectedCommandes();
+
+        if (selectedCommandes.isEmpty()) {
+            showAlert("Erreur", "Aucune commande sélectionnée.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // --- Create new Livraison ---
+        CommandDAO commandDAO = new CommandDAO();
+        int newLivraisonId = commandDAO.createLivraison(); // implement in DAO
+
+        if (newLivraisonId == -1) {
+            showAlert("Erreur", "Impossible de créer la livraison.", Alert.AlertType.ERROR);
+            return;
+        }
+
+        // --- Assign selected commandes to this new livraison ---
+        for (Commande commande : selectedCommandes) {
+            boolean updated = commandDAO.assignLivraison(commande.getId_commande(), newLivraisonId);
+            if (!updated) {
+                showAlert("Erreur",
+                        "Une commande n'a pas pu être assignée à la livraison.",
+                        Alert.AlertType.ERROR);
+            }
+        }
+
+        showAlert("Succès", "Livraison créée avec succès : ID = " + newLivraisonId, Alert.AlertType.INFORMATION);
+
+        // --- Refresh CommandeTable (remove commandes assigned to a livraison) ---
+        loadCommandesTable();
     }
+
+    private void loadCommandesTable() {
+        ObservableList<Commande> allCommandes = commandDAO.getAllCommandes();
+        ObservableList<Commande> pendingCommandes = allCommandes.filtered(c -> c.getId_livraison() == 0);
+        CommandeTable.setItems(pendingCommandes);
+
+        // Add listener to keep selection if you have CheckBox
+        for (Commande commande : pendingCommandes) {
+            commande.selectedProperty().addListener((obs, oldVal, newVal) -> {
+                // You can update any dashboard or totals if needed
+            });
+        }
+    }
+
 
     /* ------------------- Optional Buttons ------------------- */
     @FXML
