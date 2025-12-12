@@ -137,6 +137,7 @@
 
                                                                 <TableView fx:id="ColisTable" prefHeight="250">
                                                                     <columns>
+                                                                        <TableColumn fx:id="colColisSelect" text="Select" prefWidth="60"/>
                                                                         <TableColumn fx:id="colColisId" text="ID" prefWidth="150"/>
                                                                         <TableColumn fx:id="colColisIdCommande" text="IdCommande" prefWidth="150"/>
                                                                         <TableColumn fx:id="colColisNom" text="Nom" prefWidth="200"/>
@@ -145,6 +146,7 @@
                                                                         <TableColumn fx:id="colColisQuantite" text="Quantite" prefWidth="200"/>
                                                                     </columns>
                                                                 </TableView>
+
 
                                                                 <HBox spacing="15" alignment="CENTER">
                                                                     <children>
