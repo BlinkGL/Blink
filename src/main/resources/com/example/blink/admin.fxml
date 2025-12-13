@@ -87,12 +87,20 @@
                                 <HBox alignment="CENTER_LEFT" spacing="10">
                                     <children>
                                         <Label text="Liste des Livraison" style="-fx-font-size: 20px; -fx-font-weight: bold;"/>
+                                        <Pane HBox.hgrow="ALWAYS"/>
+                                        <ComboBox fx:id="cmbLivreurs" promptText="Select Livreur"
+                                                  style="-fx-padding: 5 10; -fx-background-radius: 5;"/>
+                                        <Button fx:id="btnAssignLivreur" text="➕ Assign Livreur"  onAction="#assignLivreur"
+                                                style="-fx-background-color: #3498db; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10 20; -fx-background-radius: 5;"/>
+
                                     </children>
                                 </HBox>
 
                                 <!-- ORDERS TABLE -->
                                 <TableView fx:id="LivraionTable" style="-fx-background-color: white; -fx-background-radius: 10;">
                                     <columns>
+                                        <TableColumn fx:id="colLivSelect" text="Select" prefWidth="60"/>
+
                                         <TableColumn fx:id="colLivId" text="ID" prefWidth="70"/>
                                         <TableColumn fx:id="colLivStatue" text="Statue" prefWidth="120"/>
                                         <TableColumn fx:id="colIdLivreur" text="IdLivreur" prefWidth="80"/>

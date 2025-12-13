@@ -1,6 +1,9 @@
 package com.example.blink.DAO;
 
 import com.example.blink.Class.Livreur;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +32,28 @@ public class LivreurDAO {
                 );
 
                 list.add(livreur);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return list;
+    }
+
+    public static ObservableList<Integer> getAvailableLivreurIds() {
+        ObservableList<Integer> list = FXCollections.observableArrayList();
+
+        String sql = "SELECT id FROM Utilisateur " +
+                "WHERE role = 'livreur' AND disponibilite = true " +
+                "ORDER BY id";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement pst = conn.prepareStatement(sql);
+             ResultSet rs = pst.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(rs.getInt("id"));
             }
 
         } catch (SQLException e) {

@@ -1,20 +1,24 @@
 package com.example.blink.Controllers;
 
-import com.example.blink.Class.Colis;
-import com.example.blink.Class.Commande;
-import com.example.blink.Class.Livreur;
-import com.example.blink.Class.StatutCommande;
+import com.example.blink.Class.*;
 import com.example.blink.DAO.ColisDAO;
 import com.example.blink.DAO.CommandDAO;
+import com.example.blink.DAO.LivraisonDAO;
 import com.example.blink.DAO.LivreurDAO;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import javafx.util.Callback;
+
+import java.io.IOException;
 
 public class AdminDashboardController {
 
@@ -53,10 +57,21 @@ public class AdminDashboardController {
     @FXML private TableColumn<Commande, Integer> colCommandeIdLivraison;
     @FXML private TableColumn<Commande, StatutCommande> colCommandeStatue;
 
+    /* ------------------- Livraison Table ------------------- */
+    @FXML private TableView<Livraison> LivraionTable;
+    @FXML private TableColumn<Livraison, Boolean> colLivSelect;
+    @FXML private TableColumn<Livraison, Integer> colLivId;
+    @FXML private TableColumn<Livraison, String> colLivStatue;
+    @FXML private TableColumn<Livraison, Integer> colIdLivreur;
+
+    @FXML private ComboBox<Integer> cmbLivreurs;
+
+
     /* ------------------- DAOs ------------------- */
     private final LivreurDAO livreurDAO = new LivreurDAO();
     private final ColisDAO colisDAO = new ColisDAO();
     private final CommandDAO commandDAO = new CommandDAO();
+    private final LivraisonDAO livraisonDAO = new LivraisonDAO();
 
     @FXML
     public void initialize() {
@@ -69,7 +84,42 @@ public class AdminDashboardController {
         setupCommandeTable();
         loadCommandesTable();
 
+        setupLivraisonTable();
+        loadLivraisons();
+
+        populateAvailableLivreurComboBox();
+
         updateDashboardStats();
+    }
+
+    private void populateAvailableLivreurComboBox() {
+        ObservableList<Integer> availableLivreurIds = LivreurDAO.getAvailableLivreurIds();
+        cmbLivreurs.setItems(availableLivreurIds);
+
+        // Optional: Format display
+        cmbLivreurs.setCellFactory(param -> new ListCell<Integer>() {
+            @Override
+            protected void updateItem(Integer id, boolean empty) {
+                super.updateItem(id, empty);
+                if (empty || id == null) {
+                    setText(null);
+                } else {
+                    setText("Livreur #" + id);
+                }
+            }
+        });
+
+        cmbLivreurs.setButtonCell(new ListCell<Integer>() {
+            @Override
+            protected void updateItem(Integer id, boolean empty) {
+                super.updateItem(id, empty);
+                if (empty || id == null) {
+                    setText(null);
+                } else {
+                    setText("Livreur #" + id);
+                }
+            }
+        });
     }
 
     /* ------------------- Livreur Table ------------------- */
@@ -81,8 +131,7 @@ public class AdminDashboardController {
         colCourierPassword.setCellValueFactory(cellData -> cellData.getValue().motDePassProperty());
         colCourierDisponibilite.setCellValueFactory(cellData -> cellData.getValue().disponibiliteProperty());
         colCourierDisponibilite.setCellFactory(CheckBoxTableCell.forTableColumn(colCourierDisponibilite));
-
-        couriersTable.setEditable(true);
+        
 
         colCourierDisponibilite.setOnEditCommit(event -> {
             Livreur livreur = event.getRowValue();
@@ -133,6 +182,18 @@ public class AdminDashboardController {
         ColisTable.setEditable(true);
     }
 
+    /* ------------------- Livraison Table ------------------- */
+    private void setupLivraisonTable() {
+        colLivSelect.setCellValueFactory(cellData -> cellData.getValue().selectedProperty());
+        colLivSelect.setCellFactory(CheckBoxTableCell.forTableColumn(colLivSelect));
+
+        colLivId.setCellValueFactory(cellData -> cellData.getValue().idProperty().asObject());
+        colLivStatue.setCellValueFactory(cellData -> cellData.getValue().statutProperty());
+        colIdLivreur.setCellValueFactory(cellData -> cellData.getValue().id_livreurProperty().asObject());
+
+        LivraionTable.setEditable(true);
+    }
+
 
     private void setupCourierActionColumn() {
         colCourierActions.setCellFactory(new Callback<TableColumn<Livreur, Void>, TableCell<Livreur, Void>>() {
@@ -177,6 +238,11 @@ public class AdminDashboardController {
 
         // Initial totals
         updateSelectedColisTotals();
+    }
+
+    private void loadLivraisons() {
+        ObservableList<Livraison> livraisons = livraisonDAO.getAllLivraisons();
+        LivraionTable.setItems(livraisons);
     }
 
     private void updateSelectedColisTotals() {
@@ -294,6 +360,44 @@ public class AdminDashboardController {
         loadCommandesTable();
     }
 
+
+    @FXML
+    private void assignLivreur(ActionEvent event) {
+        Integer selectedLivreurId = cmbLivreurs.getValue();
+
+        if (selectedLivreurId == null) {
+            showAlert("Erreur", "Veuillez sélectionner un livreur.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        // Get selected livraisons
+        ObservableList<Livraison> selectedLivraisons = LivraionTable.getItems().filtered(Livraison::isSelected);
+
+        if (selectedLivraisons.isEmpty()) {
+            showAlert("Erreur", "Veuillez sélectionner au moins une livraison.", Alert.AlertType.WARNING);
+            return;
+        }
+
+        LivraisonDAO livraisonDAO = new LivraisonDAO();
+        boolean allSuccess = true;
+
+        for (Livraison livraison : selectedLivraisons) {
+            boolean success = livraisonDAO.assignLivreur(livraison.getId(), selectedLivreurId);
+            if (!success) allSuccess = false;
+        }
+
+        if (allSuccess) {
+            showAlert("Succès", "Livraisons assignées au livreur avec succès.", Alert.AlertType.INFORMATION);
+        } else {
+            showAlert("Erreur", "Certaines livraisons n'ont pas pu être assignées.", Alert.AlertType.ERROR);
+        }
+
+        // Refresh table to show updated livreur IDs
+        loadLivraisons();
+    }
+
+
+
     @FXML
     private void createLivraison(ActionEvent event) {
         ObservableList<Commande> selectedCommandes = getSelectedCommandes();
@@ -342,9 +446,13 @@ public class AdminDashboardController {
     }
 
 
+
     /* ------------------- Optional Buttons ------------------- */
     @FXML
-    private void ajouterLivreur(ActionEvent event) { /* TODO: open form */ }
+    public void ajouterLivreur(ActionEvent event) throws IOException{
+
+        SceneManager.switchScene(event, "sign-up.fxml");
+    }
 
     @FXML
     private void refreshTable(ActionEvent event) {
